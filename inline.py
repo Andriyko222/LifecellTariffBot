@@ -8,3 +8,6 @@ button3 = InlineKeyboardButton("Français",callback_data='французька')
 ikb1 = InlineKeyboardMarkup().add(button1,button2,button3)
 
 
+
+start = InlineKeyboardButton("Start!",callback_data='start')
+srt = InlineKeyboardMarkup().add(start)
