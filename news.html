@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список новин</title>
+    <style>
+        /* Стилізація заголовків новин */
+        .news-title {
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        /* Стилізація опису новин */
+        .news-description {
+            font-size: 1em;
+            color: #666;
+        }
+
+        /* Стилізація посилань на новини */
+        .news-link {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Стилізація контейнера новини */
+        .news-item {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        {% for article in news %}
+            <li class="news-item">
+                <h3 class="news-title">{{ article.title }}</h3>
+                <p class="news-description">{{ article.description }}</p>
+                <a class="news-link" href="{{ article.url }}">Детальніше</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
