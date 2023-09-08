@@ -1,0 +1,70 @@
+import logging
+from aiogram import Bot, Dispatcher, types
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.contrib.middlewares.logging import LoggingMiddleware
+import requests
+
+
+BOT_TOKEN = '5866426050:AAGfLF3HL2AuWQm03e9itfMn8y8FeUZympg'
+
+bot = Bot(token=BOT_TOKEN)
+dp = Dispatcher(bot)
+logging.basicConfig(level=logging.INFO)
+
+
+ikb = InlineKeyboardMarkup()
+ikb1 = InlineKeyboardButton(text = "Сайт",
+                            url= "http://127.0.0.1:5000")
+
+ikb.add(ikb1)
+
+
+def get_news():
+    api_key = "c792ecc9a9764f9caee4fd756ecb1318"
+    url = 'https://newsapi.org/v2/top-headlines'
+
+    params = {
+        'apiKey': api_key,
+        'country': 'ua',
+        'language': 'uk',
+    }
+
+    response = requests.get(url, params=params)
+
+    if response.status_code == 200:
+        news_data = response.json()
+        articles = news_data.get('articles', [])
+        return articles
+    else:
+        print("Помилка запиту:", response.status_code)
+        return []
+
+
+@dp.message_handler(commands=['start'])
+async def on_start(message: types.Message):
+    await message.reply("Привіт! Я твій бот для новин. Щоб отримати новини, надішли команду /news.")
+
+
+@dp.message_handler(commands=['news'])
+async def news_command(message: types.Message):
+    news_data = get_news()
+    if not news_data:
+        await message.reply("На жаль, не вдалося отримати новини. Спробуйте пізніше.")
+        return
+
+    for index, article in enumerate(news_data[:2], start=1):
+        news_message = (
+            f"Новина {index}:\n"
+            f"<b>{article['title']}</b>\n"
+            f"{article['description']}\n"
+            f"<a href='{article['url']}'>Посилання</a>\n\n"
+        )
+        await message.reply(news_message, parse_mode=types.ParseMode.HTML)
+    await message.reply('якщо ви хочете побаити більше новин, то переходьте на наш сайт.',
+                        reply_markup=ikb)
+
+
+if __name__ == '__main__':
+    from aiogram import executor
+
+    executor.start_polling(dp, skip_updates=True)
