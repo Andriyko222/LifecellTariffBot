@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, flash
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import requests
@@ -40,13 +41,19 @@ def index():
 def login():
     if request.method == 'POST':
         username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
 
-        user = User.query.filter_by(username=username).first()
-        if user and user.check_password(password):
-            return redirect('/news')
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            flash('Користувач з таким іменем вже існує', 'error')
         else:
-            flash('Неправильне ім\'я користувача або пароль', 'error')
+            new_user = User(username=username, email=email)
+            new_user.set_password(password)  # Встановлення хеш-значення пароля
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Реєстрація успішно завершена', 'success')
+            return redirect('/news')
 
     return render_template('login.html')
 
