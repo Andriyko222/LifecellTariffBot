@@ -2,80 +2,21 @@
 <html>
 <head>
     <title>Логін</title>
-    <style>
-        /* Загальні стилі для всієї сторінки */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        /* Стилі для форми */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            font-size: 16px;
-        }
-
-        /* Стилі для кнопки */
-        .btn {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Логін</h2>
-        <form method="POST">
-            <div class="form-group">
-                <label for="username">Ім'я користувача:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Пароль:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="btn">Увійти</button>
-        </form>
-    </div>
+    <h1>Логін</h1>
+    <form method="POST" action="/login">
+        <div class="form-group">
+            <label for="username">Ім'я користувача:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Увійти">
+        </div>
+    </form>
 </body>
 </html>
